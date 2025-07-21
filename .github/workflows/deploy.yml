@@ -20,4 +20,9 @@ jobs:
 
     - name: Deploy with Docker Compose
       run: |
-        ssh -o StrictHostKeyChecking=no -p 49088 ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} "cd /root/find-jeja && git pull origin main && docker compose down && docker compose up --build -d"
+        ssh -o StrictHostKeyChecking=no -p 49088 ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} << 'EOF'
+          cd /root/find-jeja
+          git pull origin main
+          docker compose down
+          docker compose up --build -d
+        EOF
