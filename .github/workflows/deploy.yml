@@ -20,15 +20,20 @@ jobs:
 
     - name: Deploy with Docker Compose
       run: |
-        ssh -o StrictHostKeyChecking=no -T -p 49088 ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} << 'EOF'
-          set -e
-          echo "--- Changing directory ---"
+        ssh -o StrictHostKeyChecking=no -T -p 49088 ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} /bin/bash << 'EOF'
+          set -ex
+          
+          echo "Navigating to the project directory..."
           cd /root/find-jeja
-          echo "--- Pulling latest changes ---"
+          
+          echo "Pulling the latest changes from the main branch..."
           git pull origin main
-          echo "--- Stopping services ---"
+          
+          echo "Bringing down the existing Docker containers..."
           docker compose down
-          echo "--- Building and starting services ---"
+          
+          echo "Building and starting the new Docker containers in detached mode..."
           docker compose up --build -d
-          echo "--- Deployment successful ---"
+          
+          echo "Deployment to CentOS server completed successfully!"
         EOF
