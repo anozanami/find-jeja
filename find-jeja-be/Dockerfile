@@ -3,7 +3,7 @@ FROM gradle:8.8.0-jdk17-jammy as builder
 
 WORKDIR /app
 
-COPY build.gradle settings.gradle ./
+COPY build.gradle ./
 COPY gradle/ gradle/
 COPY gradlew ./
 RUN chmod +x gradlew
