@@ -3,9 +3,17 @@ FROM gradle:8.8.0-jdk17-jammy as builder
 
 WORKDIR /app
 
+COPY build.gradle settings.gradle ./
+COPY gradle/ gradle/
+COPY gradlew ./
+RUN chmod +x gradlew
+
+# Download dependencies first to leverage caching
+RUN ./gradlew dependencies
+
 COPY . .
 
-RUN gradle bootJar
+RUN ./gradlew bootJar
 
 # 2. Run with JRE
 FROM eclipse-temurin:17-jre-alpine
