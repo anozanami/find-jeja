@@ -7,6 +7,10 @@ services:
       dockerfile: Dockerfile
     ports:
       - "80:80"
+      - "443:443"
+    volumes:
+      - /root/nginx.key:/etc/nginx/certs/nginx.key:ro
+      - /root/nginx.crt:/etc/nginx/certs/nginx.crt:ro
     networks:
       - find-jeja-net
 

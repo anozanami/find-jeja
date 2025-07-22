@@ -19,7 +19,7 @@ function LoginForm({ onLogin }) {
               <div className="text-end">
                 <small className="text-color-light">2025 삼광교회 청년회 하계수련회</small>
               </div>
-              <h2 className="card-title text-center mt-2 text-color-light">윤석일 화이팅!!!</h2>
+              <h2 className="card-title text-center mt-2 text-color-light">제자를 찾아라!</h2>
             </div>
             <div className="card-body">
               <form onSubmit={handleSubmit}>
