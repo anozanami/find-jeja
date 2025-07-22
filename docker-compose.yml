@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./find-jeja-fe
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    networks:
+      - find-jeja-net
+
+  backend:
+    build:
+      context: ./find-jeja-be
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/find-jeja
+      - SPRING_DATASOURCE_USERNAME=user
+      - SPRING_DATASOURCE_PASSWORD=password
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - find-jeja-net
+
+  db:
+    image: postgres:15-alpine
+    container_name: find-jeja-db
+    environment:
+      - POSTGRES_DB=find-jeja
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - find-jeja-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -d find-jeja"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+networks:
+  find-jeja-net:
+    driver: bridge
+
+volumes:
+  postgres_data:
