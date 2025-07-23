@@ -1,11 +1,10 @@
-
 package com.example.hintgamedb.dto;
 
-public class HintDto {
+public class AnswerHintDto {
     private String content;
     private int level;
 
-    public HintDto(String content, int level) {
+    public AnswerHintDto(String content, int level) {
         this.content = content;
         this.level = level;
     }

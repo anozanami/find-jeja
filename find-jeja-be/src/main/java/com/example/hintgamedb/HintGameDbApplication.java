@@ -1,8 +1,9 @@
 
 package com.example.hintgamedb;
 
-import com.example.hintgamedb.domain.Hint;
+import com.example.hintgamedb.domain.AnswerHint;
 import com.example.hintgamedb.domain.Team;
+import com.example.hintgamedb.repository.AnswerHintRepository;
 import com.example.hintgamedb.repository.TeamRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -19,11 +20,11 @@ public class HintGameDbApplication {
     }
 
     @Bean
-    public CommandLineRunner demoData(TeamRepository teamRepository) {
+    public CommandLineRunner demoData(TeamRepository teamRepository, AnswerHintRepository answerHintRepository) {
         return args -> {
-            // Create teams and hints
-            String[] teamNames = {"1조", "2조", "3조", "4조", "5조", "6조", "7조", "test"};
-            String[] correctAnswers = {"", "", "", "", "", "", "", ""};
+            // Create teams
+            String[] teamNames = {"1조", "2조", "3조", "4조", "5조", "6조", "7조"};
+            String[] correctAnswers = {"answer1", "answer2", "answer3", "answer4", "answer5", "answer6", "answer7"};
 
             for (int i = 0; i < teamNames.length; i++) {
                 Team team = new Team();
@@ -34,15 +35,19 @@ public class HintGameDbApplication {
                 team.setCorrectAnswerTime(null); // Initialize correct answer time to null
                 team.setHintLevel(1);
                 team.setAttemptsLeft(3);
-
-                for (int j = 1; j <= 3; j++) {
-                    Hint hint = new Hint();
-                    hint.setContent("Hint " + j);
-                    hint.setLevel(j);
-                    hint.setTeam(team);
-                    team.getHints().add(hint);
-                }
                 teamRepository.save(team);
+            }
+
+            // Create answer hints
+            String[] answerNames = {"베드로", "안드레", "야고보", "요한", "빌립", "바돌로매", "도마", "마태", "알패오의 아들 야고보", "다대오", "시몬", "가롯 유다"};
+            for (String answerName : answerNames) {
+                for (int j = 1; j <= 3; j++) {
+                    AnswerHint answerHint = new AnswerHint();
+                    answerHint.setAnswerName(answerName);
+                    answerHint.setLevel(j);
+                    answerHint.setContent(answerName + " 힌트 " + j);
+                    answerHintRepository.save(answerHint);
+                }
             }
         };
     }

@@ -1,11 +1,12 @@
 
 package com.example.hintgamedb.service;
 
-import com.example.hintgamedb.domain.Hint;
+import com.example.hintgamedb.domain.AnswerHint;
 import com.example.hintgamedb.domain.Submission;
 import com.example.hintgamedb.domain.Team;
-import com.example.hintgamedb.dto.HintDto;
+import com.example.hintgamedb.dto.AnswerHintDto;
 import com.example.hintgamedb.dto.SubmitResponse;
+import com.example.hintgamedb.repository.AnswerHintRepository;
 import com.example.hintgamedb.repository.SubmissionRepository;
 import com.example.hintgamedb.repository.TeamRepository;
 import org.springframework.stereotype.Service;
@@ -24,12 +25,12 @@ public class TeamService {
 
     private final TeamRepository teamRepository;
     private final SubmissionRepository submissionRepository;
-    
+    private final AnswerHintRepository answerHintRepository;
 
-    public TeamService(TeamRepository teamRepository, SubmissionRepository submissionRepository) {
+    public TeamService(TeamRepository teamRepository, SubmissionRepository submissionRepository, AnswerHintRepository answerHintRepository) {
         this.teamRepository = teamRepository;
         this.submissionRepository = submissionRepository;
-        
+        this.answerHintRepository = answerHintRepository;
     }
 
     public Team loginTeam(String name, String password) {
@@ -55,11 +56,11 @@ public class TeamService {
         return teamRepository.findAll();
     }
 
-    public List<HintDto> getHintsForTeam(String teamName) {
+    public List<AnswerHintDto> getHintsForTeam(String teamName) {
         Team team = getTeamByName(teamName);
-        return team.getHints().stream()
-                .filter(hint -> hint.getLevel() <= team.getHintLevel())
-                .map(hint -> new HintDto(hint.getContent(), hint.getLevel()))
+        String correctAnswer = team.getCorrectAnswer();
+        return answerHintRepository.findByAnswerNameAndLevelLessThanEqual(correctAnswer, team.getHintLevel()).stream()
+                .map(hint -> new AnswerHintDto(hint.getContent(), hint.getLevel()))
                 .collect(Collectors.toList());
     }
 

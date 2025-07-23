@@ -30,9 +30,6 @@ public class Team {
     private int attemptsLeft = 3;
 
     @OneToMany(mappedBy = "team", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Hint> hints = new ArrayList<>();
-
-    @OneToMany(mappedBy = "team", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Submission> submissions = new ArrayList<>();
 
     public Long getId() {
@@ -99,13 +96,7 @@ public class Team {
         this.attemptsLeft = attemptsLeft;
     }
 
-    public List<Hint> getHints() {
-        return hints;
-    }
-
-    public void setHints(List<Hint> hints) {
-        this.hints = hints;
-    }
+    
 
     public List<Submission> getSubmissions() {
         return submissions;

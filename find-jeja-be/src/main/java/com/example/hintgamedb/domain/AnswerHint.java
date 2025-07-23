@@ -1,22 +1,19 @@
-
 package com.example.hintgamedb.domain;
 
 import javax.persistence.*;
 
 @Entity
-public class Hint {
+public class AnswerHint {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String content;
+    private String answerName;
 
     private int level;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "answer_hint_id")
-    private AnswerHint answerHint;
+    private String content;
 
     public Long getId() {
         return id;
@@ -26,12 +23,12 @@ public class Hint {
         this.id = id;
     }
 
-    public String getContent() {
-        return content;
+    public String getAnswerName() {
+        return answerName;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setAnswerName(String answerName) {
+        this.answerName = answerName;
     }
 
     public int getLevel() {
@@ -42,11 +39,11 @@ public class Hint {
         this.level = level;
     }
 
-    public AnswerHint getAnswerHint() {
-        return answerHint;
+    public String getContent() {
+        return content;
     }
 
-    public void setAnswerHint(AnswerHint answerHint) {
-        this.answerHint = answerHint;
+    public void setContent(String content) {
+        this.content = content;
     }
 }

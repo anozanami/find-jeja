@@ -14,6 +14,33 @@ import Rulebook from './components/Rulebook'; // Import Rulebook component
 
 import { teamLogin, adminLogin, getOverallStatus, getHintsForTeam, submitAnswer, updateHintLevel, updateCorrectAnswer, changeTeamPassword } from './api';
 
+import BarChartIcon from '@mui/icons-material/BarChart';
+import HomeIcon from '@mui/icons-material/Home';
+import BookIcon from '@mui/icons-material/Book';
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
+import Box from '@mui/material/Box';
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#1976d2',
+    },
+    secondary: {
+      main: '#dc004e',
+    },
+  },
+  typography: {
+    fontFamily: 'Noto Sans KR, sans-serif',
+  },
+});
+
 function App() {
   const navigate = useNavigate();
   const [loggedInTeam, setLoggedInTeam] = useState('');
@@ -152,27 +179,68 @@ function App() {
   };
 
   return (
-    <div className="container mt-3 app-container">
-      <nav className="nav app-nav">
-        <Link className="nav-link me-auto" to="/overall-status">전체 현황</Link>
-        <Link className="nav-link" to="/">홈</Link>
-        <Link className="nav-link ms-auto" to="/admin">관리자</Link>
-      </nav>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Box sx={{ flexGrow: 1 }}>
+        <AppBar position="static">
+          <Toolbar sx={{ justifyContent: 'space-between' }}>
+            {/* Left: 전체 현황 */}
+            <Box>
+              <Link to="/overall-status" style={{ color: 'inherit', textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
+                <IconButton color="inherit">
+                  <BarChartIcon />
+                </IconButton>
+                <Typography variant="h6" component="span">팀 현황</Typography>
+              </Link>
+            </Box>
 
-      <Routes>
-        <Route
-          path="/"
-          element={
-            loggedInTeam ? (
-              <HintPage
-                teamName={loggedInTeam}
-                onLogout={handleLogout}
-              />
-            ) : (
-              <LoginForm onLogin={handleLogin} />
-            )
-          }
-        />
+            {/* Center: 홈 */}
+            <Box sx={{ mx: 'auto' }}>
+              <Link to="/" style={{ color: 'inherit', textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
+                <IconButton color="inherit">
+                  <HomeIcon />
+                </IconButton>
+                <Typography variant="h6" component="span">홈</Typography>
+              </Link>
+            </Box>
+
+            {/* Right: 룰북 */}
+            <Box>
+              <Link to="/rulebook" style={{ color: 'inherit', textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
+                <IconButton color="inherit">
+                  <BookIcon />
+                </IconButton>
+                <Typography variant="h6" component="span">룰북</Typography>
+              </Link>
+            </Box>
+          </Toolbar>
+        </AppBar>
+      </Box>
+
+      {/* Admin button at bottom right */}
+      <div style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex: '1000' }}>
+        <Link to="/admin">
+          <IconButton color="primary" sx={{ backgroundColor: 'primary.main', color: 'white', '&:hover': { backgroundColor: 'primary.dark' } }}>
+            <AdminPanelSettingsIcon style={{ fontSize: '1.5rem' }} />
+          </IconButton>
+        </Link>
+      </div>
+
+      <div className="container mt-3 app-container">
+        <Routes>
+          <Route
+            path="/"
+            element={
+              loggedInTeam ? (
+                <HintPage
+                  teamName={loggedInTeam}
+                  onLogout={handleLogout}
+                />
+              ) : (
+                <LoginForm onLogin={handleLogin} />
+              )
+            }
+          />
         <Route
           path="/admin"
           element={
@@ -204,7 +272,11 @@ function App() {
         />
         <Route
           path="/overall-status"
-          element={<OverallStatus />}
+          element={<OverallStatus
+            isAdminLoggedIn={isAdminLoggedIn}
+            teamsData={teamsData}
+            successfulSubmissions={successfulSubmissions}
+          />}
         />
         <Route
           path="/answer-submission"
@@ -230,6 +302,7 @@ function App() {
         />
       </Routes>
     </div>
+    </ThemeProvider>
   );
 }
 

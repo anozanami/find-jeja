@@ -2,7 +2,7 @@
 package com.example.hintgamedb.controller;
 
 import com.example.hintgamedb.domain.Team;
-import com.example.hintgamedb.dto.*;
+import com.example.hintgamedb.dto.AnswerHintDto;
 import com.example.hintgamedb.service.TeamService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "http://localhost:5173") // Allow requests from your frontend
+@CrossOrigin(origins = "*") // Allow requests from any origin for development
 public class TeamController {
 
     private final TeamService teamService;
@@ -52,7 +52,7 @@ public class TeamController {
     }
 
     @GetMapping("/teams/{teamName}/hints")
-    public List<HintDto> getHintsForTeam(@PathVariable String teamName) {
+    public List<AnswerHintDto> getHintsForTeam(@PathVariable String teamName) {
         return teamService.getHintsForTeam(teamName);
     }
 
