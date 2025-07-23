@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "https://skcndm.csu.ac.kr") // Allow requests from your frontend
+@CrossOrigin(origins = "http://localhost:5173") // Allow requests from your frontend
 public class TeamController {
 
     private final TeamService teamService;
@@ -61,9 +61,8 @@ public class TeamController {
         return teamService.submitAnswer(teamName, submitRequest.getAnswer());
     }
 
-    @GetMapping(value = "/overall-status", produces = "application/json;charset=UTF-8")
+    @GetMapping("/overall-status")
     public AdminDashboardDto getOverallStatus() {
-        System.out.println("Fetching overall status...");
         List<Team> teams = teamService.getAllTeams();
         List<TeamDto> teamDtos = teams.stream().map(team -> {
             TeamDto dto = new TeamDto();
@@ -79,13 +78,12 @@ public class TeamController {
 
         List<SubmissionDto> submissionDtos = teamService.getSuccessfulSubmissions().stream().map(submission -> {
             SubmissionDto dto = new SubmissionDto();
-            dto.setTeamName(submission.getTeam() != null ? submission.getTeam().getName() : "Unknown Team"); // Null check for team
+            dto.setTeamName(submission.getTeam().getName());
             dto.setSubmittedAnswer(submission.getSubmittedAnswer());
             dto.setSubmittedAt(submission.getSubmittedAt());
             return dto;
         }).collect(Collectors.toList());
 
-        System.out.println("Overall status fetched successfully.");
         return new AdminDashboardDto(teamDtos, submissionDtos);
     }
 
@@ -100,13 +98,10 @@ public class TeamController {
 
     @PutMapping("/admin/teams/{teamName}/answer")
     public ResponseEntity<String> updateCorrectAnswer(@PathVariable String teamName, @RequestParam String answer, @RequestBody LoginRequest loginRequest) {
-        System.out.println("Admin updateCorrectAnswer called for team: " + teamName + ", answer: " + answer);
         if (!ADMIN_PASSWORD.equals(loginRequest.getPassword())) {
-            System.out.println("Invalid admin password for updateCorrectAnswer.");
             return ResponseEntity.status(401).body("Invalid admin password");
         }
         teamService.updateCorrectAnswer(teamName, answer);
-        System.out.println("Correct answer updated successfully for team: " + teamName);
         return ResponseEntity.ok("Correct answer updated");
     }
 
@@ -120,18 +115,8 @@ public class TeamController {
         }
     }
 
-    @GetMapping(value = "/rulebook", produces = "application/json;charset=UTF-8")
+    @GetMapping("/rulebook")
     public ResponseEntity<String> getRulebookContent() {
         return ResponseEntity.ok("룰북 예시입니다");
-    }
-
-    @PostMapping("/admin/reset-and-add-team")
-    public ResponseEntity<String> resetAndAddTeam(@RequestBody LoginRequest loginRequest) {
-        if (!ADMIN_PASSWORD.equals(loginRequest.getPassword())) {
-            return ResponseEntity.status(401).body("Invalid admin password");
-        }
-        teamService.deleteAllTeams();
-        teamService.createTeam("1조", 1, 3, false, "password"); // Default password for 1조
-        return ResponseEntity.ok("Teams reset and 1조 added.");
     }
 }
