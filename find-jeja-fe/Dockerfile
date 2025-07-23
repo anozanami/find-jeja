@@ -1,11 +1,11 @@
 # 1. Build React App
-FROM node:18-alpine as builder
+FROM node:20-alpine as builder
 
 WORKDIR /app
 
 COPY package.json ./
 COPY package-lock.json ./
-RUN npm install
+RUN npm cache clean --force && rm -rf node_modules && npm install
 
 COPY . .
 # Grant execute permission to vite

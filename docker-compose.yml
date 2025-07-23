@@ -8,6 +8,8 @@ services:
     ports:
       - "80:80"
       - "443:443"
+    depends_on:
+      - backend
     volumes:
       - /root/nginx.key:/etc/nginx/certs/nginx.key:ro
       - /root/nginx.crt:/etc/nginx/certs/nginx.crt:ro
@@ -21,7 +23,7 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/find-jeja
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/find-jeja
       - SPRING_DATASOURCE_USERNAME=user
       - SPRING_DATASOURCE_PASSWORD=password
     depends_on:
@@ -31,20 +33,24 @@ services:
       - find-jeja-net
 
   db:
-    image: postgres:15-alpine
+    image: mysql:8.0
     container_name: find-jeja-db
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     environment:
-      - POSTGRES_DB=find-jeja
-      - POSTGRES_USER=user
-      - POSTGRES_PASSWORD=password
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: find-jeja
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - mysql_data:/var/lib/mysql
+      - ./find-jeja-be/src/main/resources/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+      - ./find-jeja-be/src/main/resources/insert_data.sql:/docker-entrypoint-initdb.d/insert_data.sql:ro
     ports:
-      - "5432:5432"
+      - "3306:3306"
     networks:
       - find-jeja-net
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U user -d find-jeja"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "user", "-ppassword"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -54,4 +60,4 @@ networks:
     driver: bridge
 
 volumes:
-  postgres_data:
+  mysql_data:

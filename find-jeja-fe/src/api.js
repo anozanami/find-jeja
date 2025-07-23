@@ -1,42 +1,40 @@
 
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8080/api';
-
 export const adminLogin = (password) => {
-    return axios.post(`${API_URL}/login/admin`, { password });
+    return axios.post(`/api/login/admin`, { password });
 };
 
 export const teamLogin = (name, password) => {
-    return axios.post(`${API_URL}/login/team`, { name, password });
+    return axios.post(`/api/login/team`, { name, password });
 };
 
 export const getOverallStatus = () => {
-    return axios.get(`${API_URL}/overall-status`);
+    return axios.get(`/api/overall-status`);
 };
 
 export const getHintsForTeam = (teamName) => {
-    return axios.get(`${API_URL}/teams/${teamName}/hints`);
+    return axios.get(`/api/teams/${teamName}/hints`);
 };
 
 export const submitAnswer = (teamName, answer) => {
-    return axios.post(`${API_URL}/teams/${teamName}/submit`, { answer });
+    return axios.post(`/api/teams/${teamName}/submit`, { answer });
 };
 
 export const updateHintLevel = (teamName, level, password) => {
-    return axios.put(`${API_URL}/admin/teams/${teamName}/level?level=${level}`, { password });
+    return axios.put(`/api/admin/teams/${teamName}/level?level=${level}`, { password });
 };
 
 export const updateCorrectAnswer = (teamName, answer, password) => {
-    return axios.put(`${API_URL}/admin/teams/${teamName}/answer?answer=${answer}`, { password });
+    return axios.put(`/api/admin/teams/${teamName}/answer?answer=${answer}`, { password });
 };
 
 export const changeTeamPassword = (teamName, newPassword) => {
-    return axios.put(`${API_URL}/teams/${teamName}/change-password`, { password: newPassword });
+    return axios.put(`/api/teams/${teamName}/change-password`, { password: newPassword });
 };
 
 export const getRulebookContent = () => {
-    return axios.get(`${API_URL}/rulebook`);
+    return axios.get(`/api/rulebook`);
 };
 
 

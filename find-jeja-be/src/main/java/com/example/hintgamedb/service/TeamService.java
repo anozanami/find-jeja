@@ -33,10 +33,18 @@ public class TeamService {
     }
 
     public Team loginTeam(String name, String password) {
-        Team team = teamRepository.findByName(name).orElseThrow(() -> new RuntimeException("Team not found"));
+        System.out.println("Attempting to log in team: " + name);
+        Team team = teamRepository.findByName(name).orElse(null);
+        if (team == null) {
+            System.out.println("Team not found: " + name);
+            throw new RuntimeException("Team not found");
+        }
+        System.out.println("Team found: " + team.getName());
         if (!team.getPassword().equals(password)) {
+            System.out.println("Invalid password for team: " + name);
             throw new RuntimeException("Invalid password");
         }
+        System.out.println("Login successful for team: " + name);
         return team;
     }
 
@@ -94,14 +102,34 @@ public class TeamService {
     }
 
     public List<Submission> getSuccessfulSubmissions() {
-        return submissionRepository.findByIsCorrectTrueOrderBySubmittedAtAsc();
+        System.out.println("Fetching successful submissions...");
+        List<Submission> submissions = submissionRepository.findByIsCorrectTrueOrderBySubmittedAtAsc();
+        System.out.println("Found " + submissions.size() + " successful submissions.");
+        return submissions;
     }
 
     public void updateCorrectAnswer(String teamName, String answer) {
+        System.out.println("TeamService.updateCorrectAnswer: teamName=" + teamName + ", answer=" + answer);
         Team team = getTeamByName(teamName);
+        System.out.println("TeamService.updateCorrectAnswer: Found team " + team.getName());
         team.setCorrectAnswer(answer);
         teamRepository.save(team);
+        System.out.println("TeamService.updateCorrectAnswer: Saved team " + team.getName() + " with new answer.");
     }
 
-    
+    public void deleteAllTeams() {
+        teamRepository.deleteAll();
+    }
+
+    public Team createTeam(String name, int hintLevel, int attemptsLeft, boolean correctAnswer, String password) {
+        Team newTeam = new Team();
+        newTeam.setName(name);
+        newTeam.setHintLevel(hintLevel);
+        newTeam.setAttemptsLeft(attemptsLeft);
+        newTeam.setCorrectAnswer(correctAnswer ? "" : null); // Set to empty string if true, null if false
+        newTeam.setCorrectAnswerTime(null);
+        newTeam.setPassword(password);
+        newTeam.setPasswordChanged(false);
+        return teamRepository.save(newTeam);
+    }
 }
