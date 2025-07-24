@@ -63,36 +63,42 @@ function OverallStatus({ isAdminLoggedIn, teamsData, successfulSubmissions }) {
         </div>
         <div className="card-body">
           <div className="table-responsive">
-            <table className="table table-striped table-hover">
-              <thead>
-                <tr>
-                  <th style={{ fontSize: '1em', whiteSpace: 'nowrap' }}>조 이름</th>
-                  <th style={{ fontSize: '1em', whiteSpace: 'nowrap' }}>힌트 레벨</th>
-                  <th style={{ fontSize: '1em', whiteSpace: 'nowrap' }}>남은 횟수</th>
-                  <th style={{ fontSize: '1em', whiteSpace: 'nowrap' }}>정답 여부</th>
-                  <th style={{ fontSize: '1em', whiteSpace: 'nowrap' }}>정답 시간</th>
-                  {isAdminLoggedIn && <th>등수</th>}
-                  {isAdminLoggedIn && <th>점수</th>}
-                </tr>
-              </thead>
-              <tbody>
-                {sortedTeams.map((team, index) => (
-                    <tr key={team.id}>
-                      <td>{team.name}</td>
-                      <td>{team.hintLevel}</td>
-                      <td>{team.attemptsLeft}</td>
-                      <td>{team.correctAnswerTime ? 'O' : 'X'}</td>
-                      <td>
-                        {team.correctAnswerTime
-                          ? new Date(team.correctAnswerTime).toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' })
-                          : '-'}
-                      </td>
-                      {isAdminLoggedIn && <td>{team.correctAnswerTime ? index + 1 : '-'}</td>}
-                      {isAdminLoggedIn && <td>{team.correctAnswerTime ? team.score : '-'}</td>}
-                    </tr>
-                  ))}
-              </tbody>
-            </table>
+            {teamsData.length > 0 ? (
+              <table className="table table-striped table-hover">
+                <thead>
+                  <tr>
+                    <th style={{ fontSize: '1em', whiteSpace: 'nowrap' }}>조 이름</th>
+                    <th style={{ fontSize: '1em', whiteSpace: 'nowrap' }}>힌트 레벨</th>
+                    <th style={{ fontSize: '1em', whiteSpace: 'nowrap' }}>남은 횟수</th>
+                    <th style={{ fontSize: '1em', whiteSpace: 'nowrap' }}>정답 여부</th>
+                    <th style={{ fontSize: '1em', whiteSpace: 'nowrap' }}>정답 시간</th>
+                    <th>정답</th>
+                    {isAdminLoggedIn && <th>등수</th>}
+                    {isAdminLoggedIn && <th>점수</th>}
+                  </tr>
+                </thead>
+                <tbody>
+                  {sortedTeams.map((team, index) => (
+                      <tr key={team.id}>
+                        <td>{team.name}</td>
+                        <td>{team.hintLevel}</td>
+                        <td>{team.attemptsLeft}</td>
+                        <td>{team.correctAnswerTime ? 'O' : 'X'}</td>
+                        <td>
+                          {team.correctAnswerTime
+                            ? new Date(team.correctAnswerTime).toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' })
+                            : '-'}
+                        </td>
+                        <td>{team.correctAnswerTime ? team.correctAnswer : '-'}</td>
+                        {isAdminLoggedIn && <td>{team.correctAnswerTime ? index + 1 : '-'}</td>}
+                        {isAdminLoggedIn && <td>{team.correctAnswerTime ? team.score : '-'}</td>}
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
+            ) : (
+              <p className="mt-3">팀 현황 데이터를 불러오는 중이거나, 데이터가 없습니다.</p>
+            )}
           </div>
         </div>
       </div>

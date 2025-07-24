@@ -26,7 +26,7 @@ function HintPage({ teamName, onLogout }) { // Removed attemptsLeft from props
       }
     };
     fetchData();
-  }, [teamName, hints, attemptsLeft]);
+  }, [teamName]);
 
   return (
     <div className="container py-4">
@@ -40,8 +40,8 @@ function HintPage({ teamName, onLogout }) { // Removed attemptsLeft from props
             {hints.length > 0 ? (
               hints.map((hint, index) => (
                 <div key={index} className="list-group-item list_group-item-action">
-                  <h5 className="mb-1">힌트 {hint.level}</h5>
-                  <p className="mb-1">{hint.content}</p>
+                  <h5 className="mb-1">힌트 {index + 1}</h5>
+                  <p className="mb-1">{hint.hint}</p>
                 </div>
               ))
             ) : (
