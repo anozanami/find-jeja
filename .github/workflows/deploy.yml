@@ -34,7 +34,7 @@ jobs:
           cd /root/find-jeja
           
           echo "Bringing down the existing Docker containers..."
-          docker compose down
+          docker compose down -v
           
           echo "Building and starting the new Docker containers in detached mode..."
           docker compose up --build -d
