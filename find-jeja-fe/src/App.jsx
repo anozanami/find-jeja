@@ -262,7 +262,6 @@ function App() {
             isAdminLoggedIn ? (
               <AdminAnswerInput
                 teams={teamsData.map(team => team.name)}
-                hintData={Object.fromEntries(teamsData.map(team => [team.name, { correctAnswer: team.correctAnswer }]))} // Pass correct answers
                 onUpdateCorrectAnswer={handleUpdateCorrectAnswer}
               />
             ) : (

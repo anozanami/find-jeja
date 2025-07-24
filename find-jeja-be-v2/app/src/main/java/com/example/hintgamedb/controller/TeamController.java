@@ -55,7 +55,7 @@ public class TeamController {
 
     @PostMapping("/teams/{teamName}/submit")
     public SubmitResponse submitAnswer(@PathVariable String teamName, @RequestBody SubmitRequest submitRequest) {
-        return teamService.submitAnswer(teamName, submitRequest.getAnswer());
+        return teamService.submitAnswer(teamName, submitRequest.getAnswerId());
     }
 
     @GetMapping("/overall-status")
@@ -94,11 +94,11 @@ public class TeamController {
     }
 
     @PutMapping("/admin/teams/{teamName}/answer")
-    public ResponseEntity<String> updateCorrectAnswer(@PathVariable String teamName, @RequestParam String answer, @RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<String> updateCorrectAnswer(@PathVariable String teamName, @RequestParam Long answerId, @RequestBody LoginRequest loginRequest) {
         if (!ADMIN_PASSWORD.equals(loginRequest.getPassword())) {
             return ResponseEntity.status(401).body("Invalid admin password");
         }
-        teamService.updateCorrectAnswer(teamName, answer);
+        teamService.updateCorrectAnswer(teamName, answerId);
         return ResponseEntity.ok("Correct answer updated");
     }
 
@@ -115,5 +115,10 @@ public class TeamController {
     @GetMapping("/rulebook")
     public ResponseEntity<String> getRulebookContent() {
         return ResponseEntity.ok("룰북 예시입니다");
+    }
+
+    @GetMapping("/correct-answers")
+    public List<CorrectAnswerDto> getAllCorrectAnswers() {
+        return teamService.getAllCorrectAnswers();
     }
 }

@@ -19,16 +19,16 @@ export const getHintsForTeam = (teamName) => {
     return axios.get(`${API_URL}/teams/${teamName}/hints`);
 };
 
-export const submitAnswer = (teamName, answer) => {
-    return axios.post(`${API_URL}/teams/${teamName}/submit`, { answer });
+export const submitAnswer = (teamName, answerId) => {
+    return axios.post(`${API_URL}/teams/${teamName}/submit`, { answerId });
 };
 
 export const updateHintLevel = (teamName, level, password) => {
     return axios.put(`${API_URL}/admin/teams/${teamName}/level?level=${level}`, { password });
 };
 
-export const updateCorrectAnswer = (teamName, answer, password) => {
-    return axios.put(`${API_URL}/admin/teams/${teamName}/answer?answer=${answer}`, { password });
+export const updateCorrectAnswer = (teamName, answerId, password) => {
+    return axios.put(`${API_URL}/admin/teams/${teamName}/answer?answerId=${answerId}`, { password });
 };
 
 export const changeTeamPassword = (teamName, newPassword) => {
@@ -37,6 +37,10 @@ export const changeTeamPassword = (teamName, newPassword) => {
 
 export const getRulebookContent = () => {
     return axios.get(`${API_URL}/rulebook`);
+};
+
+export const getAllCorrectAnswers = () => {
+    return axios.get(`${API_URL}/correct-answers`);
 };
 
 

@@ -4,6 +4,7 @@ import com.example.hintgamedb.domain.AnswerHint;
 import com.example.hintgamedb.domain.Submission;
 import com.example.hintgamedb.domain.Team;
 import com.example.hintgamedb.dto.AnswerHintDto;
+import com.example.hintgamedb.dto.CorrectAnswerDto;
 import com.example.hintgamedb.dto.SubmitResponse;
 import com.example.hintgamedb.repository.AnswerHintRepository;
 import com.example.hintgamedb.repository.SubmissionRepository;
@@ -80,13 +81,17 @@ public class TeamService {
         return hints;
     }
 
-    public SubmitResponse submitAnswer(String teamName, String answer) {
+    public SubmitResponse submitAnswer(String teamName, Long answerId) {
         Team team = getTeamByName(teamName);
         if (team.getAttemptsLeft() <= 0) {
             throw new RuntimeException("No attempts left");
         }
 
-        boolean isCorrect = team.getCorrectAnswer().equalsIgnoreCase(answer);
+        AnswerHint submittedAnswerHint = answerHintRepository.findById(answerId)
+                .orElseThrow(() -> new RuntimeException("Answer not found"));
+        String submittedAnswerText = submittedAnswerHint.getCorrectAnswer();
+
+        boolean isCorrect = team.getCorrectAnswer().equalsIgnoreCase(submittedAnswerText);
         if (isCorrect && team.getCorrectAnswerTime() == null) {
             team.setCorrectAnswerTime(LocalDateTime.now());
         }
@@ -94,7 +99,7 @@ public class TeamService {
 
         Submission submission = new Submission();
         submission.setTeam(team);
-        submission.setSubmissionText(answer);
+        submission.setSubmissionText(submittedAnswerText);
         submission.setCorrect(isCorrect);
         submission.setSubmissionTime(LocalDateTime.now());
         submissionRepository.save(submission);
@@ -110,13 +115,21 @@ public class TeamService {
         teamRepository.save(team);
     }
 
-    public void updateCorrectAnswer(String teamName, String answer) {
+    public void updateCorrectAnswer(String teamName, Long answerId) {
         Team team = getTeamByName(teamName);
-        team.setCorrectAnswer(answer);
+        AnswerHint newCorrectAnswerHint = answerHintRepository.findById(answerId)
+                .orElseThrow(() -> new RuntimeException("Answer not found"));
+        team.setCorrectAnswer(newCorrectAnswerHint.getCorrectAnswer());
         teamRepository.save(team);
     }
 
     public List<Submission> getSuccessfulSubmissions() {
         return submissionRepository.findByIsCorrectTrue();
+    }
+
+    public List<CorrectAnswerDto> getAllCorrectAnswers() {
+        return answerHintRepository.findAll().stream()
+                .map(answerHint -> new CorrectAnswerDto(answerHint.getId(), answerHint.getCorrectAnswer()))
+                .collect(Collectors.toList());
     }
 }

@@ -1,20 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getAllCorrectAnswers } from '../api';
 
-function AdminAnswerInput({ teams, hintData, onUpdateCorrectAnswer }) {
+function AdminAnswerInput({ teams, onUpdateCorrectAnswer }) {
   const navigate = useNavigate();
   const [selectedTeam, setSelectedTeam] = useState(teams[0] || '');
-  const [correctAnswer, setCorrectAnswer] = useState('');
+  const [selectedAnswerId, setSelectedAnswerId] = useState('');
+  const [correctAnswers, setCorrectAnswers] = useState([]);
 
   useEffect(() => {
-    if (selectedTeam && hintData[selectedTeam]) {
-      setCorrectAnswer(hintData[selectedTeam].correctAnswer || '');
-    }
-  }, [selectedTeam, hintData]);
+    const fetchCorrectAnswers = async () => {
+      try {
+        const response = await getAllCorrectAnswers();
+        setCorrectAnswers(response.data);
+      } catch (error) {
+        console.error("Error fetching correct answers:", error);
+        alert("정답 목록을 불러오는 데 실패했습니다.");
+      }
+    };
+    fetchCorrectAnswers();
+  }, []);
 
   const handleSave = async () => {
-    await onUpdateCorrectAnswer(selectedTeam, correctAnswer);
-    alert(`Correct answer for ${selectedTeam} saved!`);
+    if (!selectedAnswerId) {
+      alert('정답을 선택해주세요.');
+      return;
+    }
+    await onUpdateCorrectAnswer(selectedTeam, selectedAnswerId);
+    alert(`${selectedTeam} 팀의 정답이 성공적으로 업데이트되었습니다!`);
   };
 
   return (
@@ -40,15 +53,20 @@ function AdminAnswerInput({ teams, hintData, onUpdateCorrectAnswer }) {
             </select>
           </div>
           <div className="mb-3">
-            <label htmlFor="correctAnswerInput" className="form-label">정답 입력</label>
-            <input
-              type="text"
-              className="form-control"
-              id="correctAnswerInput"
-              value={correctAnswer}
-              onChange={(e) => setCorrectAnswer(e.target.value)}
-              placeholder="정답을 입력하세요"
-            />
+            <label htmlFor="correctAnswerSelect" className="form-label">정답 선택</label>
+            <select
+              id="correctAnswerSelect"
+              className="form-select"
+              value={selectedAnswerId}
+              onChange={(e) => setSelectedAnswerId(e.target.value)}
+            >
+              <option value="">정답을 선택하세요</option>
+              {correctAnswers.map((answer) => (
+                <option key={answer.id} value={answer.id}>
+                  {answer.correctAnswer}
+                </option>
+              ))}
+            </select>
           </div>
           <button className="btn btn-primary me-2" onClick={handleSave}>
             저장
