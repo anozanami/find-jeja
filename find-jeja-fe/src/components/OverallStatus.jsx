@@ -62,7 +62,6 @@ function OverallStatus({ isAdminLoggedIn, teamsData, successfulSubmissions }) {
           </button>
         </div>
         <div className="card-body">
-          {/* <h3 className="mb-3">팀 현황</h3> */}
           <div className="table-responsive">
             <table className="table table-striped table-hover">
               <thead>

@@ -53,15 +53,9 @@ function App() {
     fetchOverallStatusData();
   }, []);
 
-  useEffect(() => {
-    if (isAdminLoggedIn) {
-      fetchOverallStatusData();
-    }
-  }, [isAdminLoggedIn]);
-
   const fetchOverallStatusData = async () => {
     try {
-      const response = await getOverallStatus();
+      const response = await getOverallStatus(); // This now returns AdminDashboardDto
       setTeamsData(response.data.teams);
       setSuccessfulSubmissions(response.data.successfulSubmissions);
     } catch (error) {
@@ -126,7 +120,7 @@ function App() {
       await adminLogin(password);
       setIsAdminLoggedIn(true);
       setAdminPassword(password); // Store password for subsequent admin actions
-      fetchAdminDashboardData(); // Fetch data after successful admin login
+      fetchOverallStatusData(); // Fetch data after successful admin login
     } catch (error) {
       alert('관리자 비밀번호가 틀렸습니다.');
     }
@@ -135,7 +129,7 @@ function App() {
   const handleLevelChange = async (teamName, level) => {
     try {
       await updateHintLevel(teamName, level, adminPassword);
-      fetchAdminDashboardData(); // Refresh data after update
+      fetchOverallStatusData(); // Refresh data after update
     } catch (error) {
       console.error("Error updating hint level:", error);
       alert("힌트 레벨 업데이트 실패");
@@ -158,8 +152,7 @@ function App() {
             : team
         )
       );
-      // Also refresh admin dashboard data to get updated successful submissions
-      fetchAdminDashboardData();
+      fetchOverallStatusData();
     } catch (error) {
       console.error("Error submitting answer:", error);
       alert("정답 제출 실패");
@@ -169,7 +162,7 @@ function App() {
   const handleUpdateCorrectAnswer = async (teamName, answer) => {
     try {
       await updateCorrectAnswer(teamName, answer, adminPassword);
-      fetchAdminDashboardData(); // Refresh data after update
+      fetchOverallStatusData(); // Refresh data after update
       alert('정답이 성공적으로 업데이트되었습니다.');
     } catch (error) {
       console.error("Error updating correct answer:", error);
