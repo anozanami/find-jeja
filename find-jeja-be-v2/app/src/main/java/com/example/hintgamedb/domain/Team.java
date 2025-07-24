@@ -17,6 +17,7 @@ public class Team {
 
     private String password;
 
+    @Column(columnDefinition = "BOOLEAN DEFAULT FALSE")
     private boolean passwordChanged = false;
 
     private String correctAnswer;

@@ -50,19 +50,22 @@ function App() {
   const [successfulSubmissions, setSuccessfulSubmissions] = useState([]); // Stores successful submissions
 
   useEffect(() => {
-    // Fetch initial data for admin panel if admin is logged in
+    fetchOverallStatusData();
+  }, []);
+
+  useEffect(() => {
     if (isAdminLoggedIn) {
-      fetchAdminDashboardData();
+      fetchOverallStatusData();
     }
   }, [isAdminLoggedIn]);
 
-  const fetchAdminDashboardData = async () => {
+  const fetchOverallStatusData = async () => {
     try {
-      const response = await getOverallStatus(); // This now returns AdminDashboardDto
+      const response = await getOverallStatus();
       setTeamsData(response.data.teams);
       setSuccessfulSubmissions(response.data.successfulSubmissions);
     } catch (error) {
-      console.error("Error fetching admin dashboard data:", error);
+      console.error("Error fetching overall status data:", error);
     }
   };
 
