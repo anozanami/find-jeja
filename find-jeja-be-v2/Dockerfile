@@ -1,8 +1,16 @@
-FROM openjdk:17-jdk-slim
+FROM gradle:8.8.0-jdk17-jammy as builder
 
 WORKDIR /app
 
-COPY build/libs/*.jar app.jar
+COPY . .
+
+RUN gradle clean bootJar
+
+FROM eclipse-temurin:17-jre-alpine
+
+WORKDIR /app
+
+COPY --from=builder /app/app/build/libs/*.jar app.jar
 
 EXPOSE 8080
 

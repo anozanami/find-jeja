@@ -16,8 +16,8 @@ services:
 
   backend-v2:
     build:
-      context: ./find-jeja-be-v2/app
-      dockerfile: ../Dockerfile
+      context: ./find-jeja-be-v2
+      dockerfile: Dockerfile
     ports:
       - "8080:8080"
     environment:
@@ -36,7 +36,8 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=hint_game_db
-    
+    volumes:
+      - mysql_data:/var/lib/mysql
     ports:
       - "3306:3306"
     networks:
@@ -51,3 +52,5 @@ networks:
   find-jeja-net:
     driver: bridge
 
+volumes:
+  mysql_data:
