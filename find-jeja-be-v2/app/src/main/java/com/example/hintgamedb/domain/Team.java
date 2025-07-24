@@ -27,6 +27,10 @@ public class Team {
 
     private int attemptsLeft = 3;
 
+    private Integer teamRank;
+
+    private Integer score;
+
     @OneToMany(mappedBy = "team", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Submission> submissions = new ArrayList<>();
 
@@ -100,5 +104,21 @@ public class Team {
 
     public void setSubmissions(List<Submission> submissions) {
         this.submissions = submissions;
+    }
+
+    public Integer getTeamRank() {
+        return teamRank;
+    }
+
+    public void setTeamRank(Integer teamRank) {
+        this.teamRank = teamRank;
+    }
+
+    public Integer getScore() {
+        return score;
+    }
+
+    public void setScore(Integer score) {
+        this.score = score;
     }
 }

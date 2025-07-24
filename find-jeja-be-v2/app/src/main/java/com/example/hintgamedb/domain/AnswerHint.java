@@ -9,11 +9,22 @@ public class AnswerHint {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String answerName;
+    private String correctAnswer;
 
-    private int level;
+    @Lob
+    private String hint1;
 
-    private String content;
+    @Lob
+    private String hint2;
+
+    @Lob
+    private String hint3;
+
+    @Lob
+    private String hint4;
+
+    @Lob
+    private String hint5;
 
     public Long getId() {
         return id;
@@ -23,27 +34,51 @@ public class AnswerHint {
         this.id = id;
     }
 
-    public String getAnswerName() {
-        return answerName;
+    public String getCorrectAnswer() {
+        return correctAnswer;
     }
 
-    public void setAnswerName(String answerName) {
-        this.answerName = answerName;
+    public void setCorrectAnswer(String correctAnswer) {
+        this.correctAnswer = correctAnswer;
     }
 
-    public int getLevel() {
-        return level;
+    public String getHint1() {
+        return hint1;
     }
 
-    public void setLevel(int level) {
-        this.level = level;
+    public void setHint1(String hint1) {
+        this.hint1 = hint1;
     }
 
-    public String getContent() {
-        return content;
+    public String getHint2() {
+        return hint2;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setHint2(String hint2) {
+        this.hint2 = hint2;
+    }
+
+    public String getHint3() {
+        return hint3;
+    }
+
+    public void setHint3(String hint3) {
+        this.hint3 = hint3;
+    }
+
+    public String getHint4() {
+        return hint4;
+    }
+
+    public void setHint4(String hint4) {
+        this.hint4 = hint4;
+    }
+
+    public String getHint5() {
+        return hint5;
+    }
+
+    public void setHint5(String hint5) {
+        this.hint5 = hint5;
     }
 }
