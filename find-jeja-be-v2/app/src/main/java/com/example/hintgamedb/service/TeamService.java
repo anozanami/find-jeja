@@ -53,9 +53,31 @@ public class TeamService {
     public List<AnswerHintDto> getHintsForTeam(String teamName) {
         Team team = getTeamByName(teamName);
         String correctAnswer = team.getCorrectAnswer();
-        return answerHintRepository.findByAnswerNameAndLevelLessThanEqual(correctAnswer, team.getHintLevel()).stream()
-                .map(hint -> new AnswerHintDto(hint.getContent(), hint.getLevel()))
-                .collect(Collectors.toList());
+        AnswerHint answerHint = answerHintRepository.findByCorrectAnswer(correctAnswer);
+
+        if (answerHint == null) {
+            return List.of();
+        }
+
+        int hintLevel = team.getHintLevel();
+        List<AnswerHintDto> hints = new java.util.ArrayList<>();
+
+        if (hintLevel >= 1 && answerHint.getHint1() != null) {
+            hints.add(new AnswerHintDto(answerHint.getHint1()));
+        }
+        if (hintLevel >= 2 && answerHint.getHint2() != null) {
+            hints.add(new AnswerHintDto(answerHint.getHint2()));
+        }
+        if (hintLevel >= 3 && answerHint.getHint3() != null) {
+            hints.add(new AnswerHintDto(answerHint.getHint3()));
+        }
+        if (hintLevel >= 4 && answerHint.getHint4() != null) {
+            hints.add(new AnswerHintDto(answerHint.getHint4()));
+        }
+        if (hintLevel >= 5 && answerHint.getHint5() != null) {
+            hints.add(new AnswerHintDto(answerHint.getHint5()));
+        }
+        return hints;
     }
 
     public SubmitResponse submitAnswer(String teamName, String answer) {

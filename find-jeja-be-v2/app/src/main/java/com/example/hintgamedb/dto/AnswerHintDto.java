@@ -1,27 +1,17 @@
 package com.example.hintgamedb.dto;
 
 public class AnswerHintDto {
-    private String content;
-    private int level;
+    private String hint;
 
-    public AnswerHintDto(String content, int level) {
-        this.content = content;
-        this.level = level;
+    public AnswerHintDto(String hint) {
+        this.hint = hint;
     }
 
-    public String getContent() {
-        return content;
+    public String getHint() {
+        return hint;
     }
 
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public int getLevel() {
-        return level;
-    }
-
-    public void setLevel(int level) {
-        this.level = level;
+    public void setHint(String hint) {
+        this.hint = hint;
     }
 }
