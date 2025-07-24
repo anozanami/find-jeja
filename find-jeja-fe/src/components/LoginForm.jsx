@@ -30,7 +30,7 @@ function LoginForm({ onLogin }) {
         <CardContent sx={{ p: 4 }}>
           <form onSubmit={handleSubmit}>
             <TextField
-              label="팀 이름"
+              label="조 이름"
               variant="outlined"
               fullWidth
               margin="normal"
