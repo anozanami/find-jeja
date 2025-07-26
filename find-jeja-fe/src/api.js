@@ -43,4 +43,8 @@ export const getAllCorrectAnswers = () => {
     return axios.get(`${API_URL}/correct-answers`);
 };
 
+export const updateAttemptsLeft = (teamName, attemptsLeft, password) => {
+    return axios.put(`${API_URL}/admin/teams/${teamName}/attempts-left?attemptsLeft=${attemptsLeft}`, { password });
+};
+
 

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { getAllCorrectAnswers } from '../api';
+import { getAllCorrectAnswers, getOverallStatus } from '../api';
 
-function AnswerSubmissionPage({ onAnswerSubmit }) {
+function AnswerSubmissionPage({ onAnswerSubmit, teamName }) {
   const navigate = useNavigate();
   const location = useLocation();
   const { attemptsLeft: initialAttemptsLeft } = location.state || { attemptsLeft: 3 };
@@ -12,9 +12,27 @@ function AnswerSubmissionPage({ onAnswerSubmit }) {
   const [correctAnswers, setCorrectAnswers] = useState([]);
 
   useEffect(() => {
-    if (initialAttemptsLeft !== undefined) {
-      setAttemptsLeft(initialAttemptsLeft);
+    // teamName이 없으면 로그인 페이지로 리다이렉트
+    if (!teamName) {
+      alert('로그인이 필요합니다.');
+      navigate('/');
+      return;
     }
+
+    const fetchAttemptsLeft = async () => {
+      try {
+        const response = await getOverallStatus();
+        const currentTeamData = response.data.teams.find(team => team.name === teamName);
+        if (currentTeamData) {
+          setAttemptsLeft(currentTeamData.attemptsLeft);
+        }
+      } catch (error) {
+        console.error("Error fetching attemptsLeft:", error);
+      }
+    };
+
+    fetchAttemptsLeft();
+
     const fetchCorrectAnswers = async () => {
       try {
         const response = await getAllCorrectAnswers();
@@ -25,7 +43,7 @@ function AnswerSubmissionPage({ onAnswerSubmit }) {
       }
     };
     fetchCorrectAnswers();
-  }, [initialAttemptsLeft]);
+  }, [teamName, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -34,7 +52,8 @@ function AnswerSubmissionPage({ onAnswerSubmit }) {
       return;
     }
     try {
-      await onAnswerSubmit(selectedAnswerId);
+      const newAttemptsLeft = await onAnswerSubmit(teamName, selectedAnswerId); // 반환값 받기
+      setAttemptsLeft(newAttemptsLeft); // attemptsLeft 상태 업데이트
     } catch (error) {
       alert('정답 제출에 실패했습니다: ' + (error.response?.data || error.message));
     }

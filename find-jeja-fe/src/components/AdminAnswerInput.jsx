@@ -28,6 +28,7 @@ function AdminAnswerInput({ teams, onUpdateCorrectAnswer }) {
     }
     await onUpdateCorrectAnswer(selectedTeam, selectedAnswerId);
     alert(`${selectedTeam} 팀의 정답이 성공적으로 업데이트되었습니다!`);
+    navigate('/overall-status');
   };
 
   return (

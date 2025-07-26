@@ -91,8 +91,13 @@ public class TeamService {
                 .orElseThrow(() -> new RuntimeException("Answer not found"));
         String submittedAnswerText = submittedAnswerHint.getCorrectAnswer();
 
-        boolean isCorrect = team.getCorrectAnswer().equalsIgnoreCase(submittedAnswerText);
+        // 모든 정답 목록을 가져와서 제출된 정답이 그 중 하나와 일치하는지 확인
+        List<AnswerHint> allCorrectAnswers = answerHintRepository.findAll();
+        boolean isCorrect = allCorrectAnswers.stream()
+                                .anyMatch(ah -> ah.getCorrectAnswer().equalsIgnoreCase(submittedAnswerText));
+
         if (isCorrect && team.getCorrectAnswerTime() == null) {
+            team.setCorrectAnswer(submittedAnswerText); // 팀이 맞춘 정답을 저장
             team.setCorrectAnswerTime(LocalDateTime.now());
         }
         team.setAttemptsLeft(team.getAttemptsLeft() - 1);
@@ -131,5 +136,11 @@ public class TeamService {
         return answerHintRepository.findAll().stream()
                 .map(answerHint -> new CorrectAnswerDto(answerHint.getId(), answerHint.getCorrectAnswer()))
                 .collect(Collectors.toList());
+    }
+
+    public void updateAttemptsLeft(String teamName, int attemptsLeft) {
+        Team team = getTeamByName(teamName);
+        team.setAttemptsLeft(attemptsLeft);
+        teamRepository.save(team);
     }
 }

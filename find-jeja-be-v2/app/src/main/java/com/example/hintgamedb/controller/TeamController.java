@@ -121,4 +121,13 @@ public class TeamController {
     public List<CorrectAnswerDto> getAllCorrectAnswers() {
         return teamService.getAllCorrectAnswers();
     }
+
+    @PutMapping("/admin/teams/{teamName}/attempts-left")
+    public ResponseEntity<String> updateAttemptsLeft(@PathVariable String teamName, @RequestParam int attemptsLeft, @RequestBody LoginRequest loginRequest) {
+        if (!ADMIN_PASSWORD.equals(loginRequest.getPassword())) {
+            return ResponseEntity.status(401).body("Invalid admin password");
+        }
+        teamService.updateAttemptsLeft(teamName, attemptsLeft);
+        return ResponseEntity.ok("Attempts left updated");
+    }
 }

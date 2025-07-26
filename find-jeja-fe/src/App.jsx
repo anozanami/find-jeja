@@ -11,8 +11,9 @@ import AdminHintInput from './components/AdminHintInput';
 import OverallStatus from './components/OverallStatus';
 import PasswordChangeForm from './components/PasswordChangeForm'; // Import new component
 import Rulebook from './components/Rulebook'; // Import Rulebook component
+import AdminAttemptsLeftInput from './components/AdminAttemptsLeftInput';
 
-import { teamLogin, adminLogin, getOverallStatus, getHintsForTeam, submitAnswer, updateHintLevel, updateCorrectAnswer, changeTeamPassword } from './api';
+import { teamLogin, adminLogin, getOverallStatus, getHintsForTeam, submitAnswer, updateHintLevel, updateCorrectAnswer, changeTeamPassword, updateAttemptsLeft } from './api';
 
 import BarChartIcon from '@mui/icons-material/BarChart';
 import HomeIcon from '@mui/icons-material/Home';
@@ -136,7 +137,7 @@ function App() {
     }
   };
 
-  const handleAnswerSubmit = async (answer) => {
+  const handleAnswerSubmit = async (teamName, answer) => {
     try {
       const response = await submitAnswer(loggedInTeam, answer);
       if (response.data.correct) {
@@ -144,15 +145,8 @@ function App() {
       } else {
         alert(`오답입니다. 남은 횟수: ${response.data.attemptsLeft}`);
       }
-      // Update teamsData to reflect the new attemptsLeft for the loggedInTeam
-      setTeamsData(prevTeamsData =>
-        prevTeamsData.map(team =>
-          team.name === loggedInTeam
-            ? { ...team, attemptsLeft: response.data.attemptsLeft }
-            : team
-        )
-      );
       fetchOverallStatusData();
+      return response.data.attemptsLeft;
     } catch (error) {
       console.error("Error submitting answer:", error);
       alert("정답 제출 실패");
@@ -167,6 +161,17 @@ function App() {
     } catch (error) {
       console.error("Error updating correct answer:", error);
       alert("정답 업데이트 실패");
+    }
+  };
+
+  const handleAttemptsLeftChange = async (teamName, attemptsLeft) => {
+    try {
+      await updateAttemptsLeft(teamName, attemptsLeft, adminPassword);
+      fetchOverallStatusData(); // Refresh data after update
+      alert('남은 횟수가 성공적으로 업데이트되었습니다.');
+    } catch (error) {
+      console.error("Error updating attempts left:", error);
+      alert("남은 횟수 업데이트 실패");
     }
   };
 
@@ -246,6 +251,7 @@ function App() {
                 adminSettings={Object.fromEntries(teamsData.map(team => [team.name, team.hintLevel]))} // Pass hint levels
                 onLevelChange={handleLevelChange}
                 successfulSubmissions={successfulSubmissions} // Pass successful submissions
+                onAttemptsLeftChange={handleAttemptsLeftChange}
               />
             ) : (
               <AdminLogin onLogin={handleAdminLogin} />
@@ -275,13 +281,25 @@ function App() {
         />
         <Route
           path="/answer-submission"
-          element={<AnswerSubmissionPage onAnswerSubmit={handleAnswerSubmit} />} // No need to pass attemptsLeft here, it's handled by backend
+          element={<AnswerSubmissionPage onAnswerSubmit={handleAnswerSubmit} teamName={loggedInTeam} />} // No need to pass attemptsLeft here, it's handled by backend
         />
         <Route
           path="/admin/hint-input"
           element={
             isAdminLoggedIn ? (
               <AdminHintInput adminPassword={adminPassword} />
+            ) : (
+              <AdminLogin onLogin={handleAdminLogin} />
+            )
+          }
+        />
+        <Route
+          path="/admin/attempts-left-input" // 새로운 라우트 경로
+          element={
+            isAdminLoggedIn ? (
+              <AdminAttemptsLeftInput
+                onUpdateAttemptsLeft={handleAttemptsLeftChange}
+              />
             ) : (
               <AdminLogin onLogin={handleAdminLogin} />
             )

@@ -72,7 +72,7 @@ function OverallStatus({ isAdminLoggedIn, teamsData, successfulSubmissions }) {
                     <th style={{ fontSize: '1em', whiteSpace: 'nowrap' }}>남은 횟수</th>
                     <th style={{ fontSize: '1em', whiteSpace: 'nowrap' }}>정답 여부</th>
                     <th style={{ fontSize: '1em', whiteSpace: 'nowrap' }}>정답 시간</th>
-                    <th>정답</th>
+                    <th style={{ fontSize: '1em', whiteSpace: 'nowrap' }}>정답</th>
                     {isAdminLoggedIn && <th>등수</th>}
                     {isAdminLoggedIn && <th>점수</th>}
                   </tr>
