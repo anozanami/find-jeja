@@ -7,14 +7,14 @@ function OverallStatus({ isAdminLoggedIn, teamsData, successfulSubmissions }) {
   const calculateScore = (team) => {
     if (!team.correctAnswerTime) return 0; // 정답을 맞추지 못했으면 0점
 
-    const baseScore = 10000; // 기본 점수
+    const baseScore = 60000; // 기본 점수
     const timePenaltyPerMinute = 10; // 1분당 감점
     const attemptsBonusPerAttempt = 100; // 남은 기회 1번당 보너스 점수
 
     // 게임 시작 시간을 2025년 7월 23일 17시 00분 00초로 가정 (예시)
     // 실제 게임 시작 시간은 백엔드에서 관리하거나, 프론트엔드에서 설정해야 합니다.
     // 여기서는 임의의 시간을 기준으로 계산합니다.
-    const gameStartTime = new Date('2025-07-23T17:00:00').getTime();
+    const gameStartTime = new Date('2025-08-14T18:00:00').getTime();
     const answerTime = new Date(team.correctAnswerTime).getTime();
 
     const timeElapsedMinutes = (answerTime - gameStartTime) / (1000 * 60);
