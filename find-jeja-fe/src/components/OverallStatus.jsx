@@ -11,7 +11,7 @@ function OverallStatus({ isAdminLoggedIn, teamsData, successfulSubmissions }) {
     const timePenaltyPerMinute = 10; // 1분당 감점
     const attemptsBonusPerAttempt = 100; // 남은 기회 1번당 보너스 점수
 
-    // 게임 시작 시간을 2025년 7월 23일 17시 00분 00초로 가정 (예시)
+    // 게임 시작 시간을 2025년 8월 14일 17시 00분 00초로 가정
     // 실제 게임 시작 시간은 백엔드에서 관리하거나, 프론트엔드에서 설정해야 합니다.
     // 여기서는 임의의 시간을 기준으로 계산합니다.
     const gameStartTime = new Date('2025-08-14T18:00:00').getTime();
