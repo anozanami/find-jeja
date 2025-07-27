@@ -58,7 +58,7 @@ public class TeamController {
 
     @PostMapping("/teams/{teamName}/submit")
     public SubmitResponse submitAnswer(@PathVariable String teamName, @RequestBody SubmitRequest submitRequest) {
-        return teamService.submitAnswer(teamName, submitRequest.getAnswer());
+        return teamService.submitAnswer(teamName, submitRequest.getAnswerId());
     }
 
     @GetMapping("/overall-status")

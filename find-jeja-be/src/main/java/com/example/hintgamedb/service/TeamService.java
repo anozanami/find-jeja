@@ -64,13 +64,16 @@ public class TeamService {
                 .collect(Collectors.toList());
     }
 
-    public SubmitResponse submitAnswer(String teamName, String answer) {
+    public SubmitResponse submitAnswer(String teamName, Long answerId) {
         Team team = getTeamByName(teamName);
         if (team.getAttemptsLeft() <= 0) {
             throw new RuntimeException("No attempts left");
         }
 
-        boolean isCorrect = team.getCorrectAnswer().equalsIgnoreCase(answer);
+        AnswerHint submittedAnswerHint = answerHintRepository.findById(answerId)
+                .orElseThrow(() -> new RuntimeException("Answer not found"));
+
+        boolean isCorrect = team.getCorrectAnswer().equalsIgnoreCase(submittedAnswerHint.getCorrectAnswer());
         if (isCorrect && team.getCorrectAnswerTime() == null) { // Only set time if not already set
             team.setCorrectAnswerTime(LocalDateTime.now());
         }
@@ -78,7 +81,7 @@ public class TeamService {
 
         Submission submission = new Submission();
         submission.setTeam(team);
-        submission.setSubmittedAnswer(answer);
+        submission.setSubmittedAnswer(submittedAnswerHint.getCorrectAnswer()); // Store the actual answer text
         submission.setCorrect(isCorrect);
         submission.setSubmittedAt(LocalDateTime.now());
         submissionRepository.save(submission);

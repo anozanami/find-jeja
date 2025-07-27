@@ -2,13 +2,13 @@
 package com.example.hintgamedb.dto;
 
 public class SubmitRequest {
-    private String answer;
+    private Long answerId;
 
-    public String getAnswer() {
-        return answer;
+    public Long getAnswerId() {
+        return answerId;
     }
 
-    public void setAnswer(String answer) {
-        this.answer = answer;
+    public void setAnswerId(Long answerId) {
+        this.answerId = answerId;
     }
 }
