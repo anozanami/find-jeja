@@ -4,3 +4,4 @@ find-jeja-be/
 *.cnf
 *.txt
 *.patch
+*.sql
