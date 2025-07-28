@@ -1,1 +1,6 @@
 find-jeja-be-old/
+*.sh
+*.sql
+*.cnf
+*.txt
+*.patch
