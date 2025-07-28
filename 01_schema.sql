@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS team (
     password_changed BOOLEAN DEFAULT FALSE,
     correct_answer VARCHAR(255),
     correct_answer_time DATETIME(6),
-    hint_level INT DEFAULT 1,
+    hint_level INT DEFAULT 0,
     attempts_left INT DEFAULT 3,
     team_rank INT,
     score INT

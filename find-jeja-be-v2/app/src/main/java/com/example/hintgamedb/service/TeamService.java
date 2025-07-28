@@ -91,10 +91,8 @@ public class TeamService {
                 .orElseThrow(() -> new RuntimeException("Answer not found"));
         String submittedAnswerText = submittedAnswerHint.getCorrectAnswer();
 
-        // 모든 정답 목록을 가져와서 제출된 정답이 그 중 하나와 일치하는지 확인
-        List<AnswerHint> allCorrectAnswers = answerHintRepository.findAll();
-        boolean isCorrect = allCorrectAnswers.stream()
-                                .anyMatch(ah -> ah.getCorrectAnswer().equalsIgnoreCase(submittedAnswerText));
+        // 팀에 할당된 정답과 제출된 정답이 일치하는지 확인
+        boolean isCorrect = team.getCorrectAnswer().equalsIgnoreCase(submittedAnswerText);
 
         if (isCorrect && team.getCorrectAnswerTime() == null) {
             team.setCorrectAnswer(submittedAnswerText); // 팀이 맞춘 정답을 저장
