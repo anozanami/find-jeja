@@ -16,8 +16,8 @@ function LoginForm({ onLogin }) {
       <Card raised sx={{ borderRadius: 3, boxShadow: 6 }}>
         <CardHeader
           title={
-            <Box sx={{ textAlign: 'center', py: 2, bgcolor: 'primary.main', color: 'white', borderTopLeftRadius: 10, borderTopRightRadius: 10 }}>
-              <Typography variant="body2" display="block" sx={{ mb: 1, color: 'white' }}>
+            <Box sx={{ textAlign: 'center', py: 2, bgcolor: 'primary.main', color: 'black', borderTopLeftRadius: 10, borderTopRightRadius: 10 }}>
+              <Typography variant="body2" display="block" sx={{ mb: 1 }}>
                 2025 삼광교회 청년회 하계수련회
               </Typography>
               <Typography variant="h4" component="h2" sx={{ fontWeight: 'bold' }}>
