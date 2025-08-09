@@ -40,10 +40,10 @@ function Rulebook() {
         </AccordionSummary>
         <AccordionDetails>
           <Typography variant="body1" gutterBottom>
-            물총으로부터 등에 붙인 <strong>이름표를 지키면서, 다른 조 제자의 이름표를 물총으로 맞춰 번지게 하세요!</strong>
+            물총으로부터 등에 붙인 <strong>이름표를 지키면서, 다른 조원의 이름표를 물총으로 맞춰 번지게 하세요!</strong>
           </Typography>
           <Typography variant="body2" gutterBottom>
-            - <strong>이름표 준비:</strong> 각 조는 <strong>다양한 크기의 이름표</strong>를 받게 됩니다. 조원들끼리 서로 논의하여 이름표를 등에 적절히 분배하고 부착해 주세요.
+            - <strong>이름표 준비:</strong> 각 조는 <strong>다양한 크기의 이름표</strong>를 받게 됩니다. 조원들끼리 서로 논의하여 이름표를 적절히 분배하고 등에 부착해 주세요.
           </Typography>
           <Typography variant="body2" gutterBottom>
             - <strong>조 제자 선정:</strong> 각 조는 <strong>제자 한 명을 임의로 선정</strong>해야 합니다. 제자의 이름표 뒤에는 <strong>'제자'라고 쓰여진 표시</strong>가 부착됩니다.
@@ -77,6 +77,54 @@ function Rulebook() {
           </Typography>
         </AccordionDetails>
       </Accordion>
+
+      {/* <Accordion>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel2a-content"
+          id="panel2a-header"
+        >
+          <Typography variant="h6">2. 이름표 서바이벌 </Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Typography variant="body1" gutterBottom>
+            등에 붙인 <strong>이름표가 떼어지지 않게 지키면서, 다른 조원의 이름표를 뜯으세요!</strong>
+          </Typography>
+          <Typography variant="body2" gutterBottom>
+            - <strong>이름표 준비:</strong> 각 조는 <strong>다양한 크기의 이름표</strong>를 받게 됩니다. 조원들끼리 서로 논의하여 이름표를 적절히 분배하고 등에 부착해 주세요.
+          </Typography>
+          <Typography variant="body2" gutterBottom>
+            - <strong>조 제자 선정:</strong> 각 조는 <strong>제자 한 명을 임의로 선정</strong>해야 합니다. 제자의 이름표 뒤에는 <strong>'제자'라고 쓰여진 표시</strong>가 부착됩니다.
+          </Typography>
+          <Typography variant="body2" gutterBottom>
+            - <strong>목표:</strong> 다른 조 <strong>조원/제자의 이름표를 뜯는 것</strong> 입니다. 성공하면 힌트를 얻고, 동시에 상대 조원를 아웃시킬 수 있습니다.
+          </Typography>
+          <Typography variant="body2" gutterBottom>
+            - <strong>한 번 공격한 조는 다시 공격하지 못합니다. 예시 : 1조가 5조 중의 한 명의 이름표를 뜯었다면 다시 5조를 공격하지 못 함</strong>
+          </Typography>
+          <Typography variant="body2" sx={{}} gutterBottom>
+            - <strong>제자가 뜯겼을 때:</strong>
+          </Typography>
+          <Typography variant="body2" sx={{ ml: 2 }} gutterBottom>
+            - 이름표가 뜯긴 조는 <strong>팀원 전체가 즉시 이름표 게임에서 아웃되며 감옥 공간으로 이동합니다.</strong> 이름표 게임을 통한 힌트를 얻을 수 없으며, 현재까지 획득한 힌트로만 정답을 맞춰야 합니다.
+          </Typography>
+          <Typography variant="body2" sx={{ ml: 2 }} gutterBottom>
+            - 이름표를 뜯은 조는 맞은 <strong>'제자의 이름표'</strong>를 떼서 진행자에게 가져오면 <strong>힌트 레벨이 1단계 상승</strong>합니다.
+          </Typography>
+          <Typography variant="body2" sx={{}} gutterBottom>
+            - <strong>일반 조원 명중 시:</strong>
+          </Typography>
+          <Typography variant="body2" sx={{ ml: 2 }} gutterBottom>
+            - 이름표가 뜯긴 조원은 바로 <strong>감옥 공간으로 이동</strong>합니다. 감옥에 있더라도 제자 추리에는 계속 참여할 수 있습니다.
+          </Typography>
+          <Typography variant="body2" sx={{ ml: 2 }} gutterBottom>
+            - 이름표를 뜯은 조는 뜯긴 사람의 이름표를 떼서 총 2개의 이름표를 진행자에게 가져오면 <strong>힌트 레벨이 1단계 상승</strong>합니다.
+          </Typography>
+          <Typography variant="body2">
+            <strong>- 게임 시작:</strong> 게임 시작은 <strong>17시 정각</strong>에 시작됩니다.
+          </Typography>
+        </AccordionDetails>
+      </Accordion> */}
 
       <Accordion>
         <AccordionSummary
