@@ -61,6 +61,9 @@ function Rulebook() {
             - 물총에 맞은 조는 <strong>팀원 전체가 즉시 물총 게임에서 아웃되며 감옥 공간으로 이동합니다.</strong> 물총 게임을 통한 힌트를 얻을 수 없으며, 현재까지 획득한 힌트로만 정답을 맞춰야 합니다.
           </Typography>
           <Typography variant="body2" sx={{ ml: 2 }} gutterBottom>
+            - 각 조는 <strong>해당 조의 제자가</strong> 상대 조들이 눈치채지 못하게 이름표의 크기를 잘 결정하고 실제 물총에 맞지 않도록 보호해야합니다.
+          </Typography>
+          <Typography variant="body2" sx={{ ml: 2 }} gutterBottom>
             - 물총을 맞춘 조는 맞은 <strong>'제자의 이름표'</strong>를 떼서 진행자에게 가져오면 <strong>힌트 레벨이 1단계 상승</strong>합니다.
           </Typography>
           <Typography variant="body2" sx={{}} gutterBottom>
