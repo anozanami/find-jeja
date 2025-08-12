@@ -22,7 +22,7 @@ function Rulebook() {
             각 조는 웹 페이지에 로그인할 수 있는 <strong>초기 비밀번호</strong>를 맞춰야 합니다.
           </Typography>
           <Typography variant="body2" gutterBottom>
-            - <strong>비밀번호는 삼광교회의 화장실이 있는 모든 층의 합 + 교회 와이파이 비밀번호 뒤의 숫자 부분 + 우리 교회가 삼광교회로 이름을 개명한 날짜</strong>입니다.
+            - <strong>비밀번호는 진행자가 준비한 PPT</strong>를 확인해주세요!
           </Typography>
           <Typography variant="body2">
             - 비밀번호를 맞추면 자동으로 앱 내에서 여러분 조만 알 수 있는 <strong>새로운 비밀번호를 설정</strong>하게 됩니다. 모든 조원은 해당 비밀번호로 각 조 힌트 페이지에 접속이 가능합니다.
